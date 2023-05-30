@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    float _speed = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -12,15 +15,21 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {       
+        //Local -> World
+        //transform.TransformDirection
+
+        //World -> Local
+        //transform.InverseTransformDirection
+
         if (Input.GetKey(KeyCode.W))
-            transform.position += new Vector3(0f, 0f, 1f);
+            transform.Translate(Vector3.forward * Time.deltaTime * _speed);
         if (Input.GetKey(KeyCode.S))
-            transform.position -= new Vector3(0f, 0f, 1f);
+            transform.Translate(Vector3.back * Time.deltaTime * _speed);
         if (Input.GetKey(KeyCode.A))
-            transform.position -= new Vector3(1f, 0f, 0f);
+            transform.Translate(Vector3.left * Time.deltaTime * _speed);
         if (Input.GetKey(KeyCode.D))
-            transform.position += new Vector3(1f, 0f, 0f);
+            transform.Translate(Vector3.right * Time.deltaTime * _speed);
 
     }
 }
