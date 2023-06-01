@@ -3,7 +3,10 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     static Managers s_instance;
-    public static Managers Instance { get { Init(); return s_instance; } }
+    static Managers Instance { get { Init(); return s_instance; } }
+
+    InputManager _input = new InputManager();
+    public static InputManager Input => Instance._input;
 
     private void Start()
     {
@@ -24,6 +27,10 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
         }
+    }
 
+    private void Update()
+    {
+        _input.OnUpdate();
     }
 }
