@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
 
     PlayerState _state = PlayerState.Idle;
 
-    float wait_run_ratio = 0f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +24,8 @@ public class PlayerController : MonoBehaviour
 
     void UpdateIdle()
     {
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 0f, 10f * Time.deltaTime);
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        anim.SetFloat("speed", 0);
     }
 
     void UpdateMoving()
@@ -50,10 +46,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // 애니메이션
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 1f, 10f * Time.deltaTime);
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        anim.SetFloat("speed", _speed);
     }
 
     void UpdateDie()
