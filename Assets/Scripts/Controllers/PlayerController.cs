@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -82,6 +83,10 @@ public class PlayerController : MonoBehaviour
 
     void OnMouseClicked(Define.MouseEvent @event)
     {
+        //UI°¡ Å¬¸¯µÇ¾î ÀÖ´Â »óÅÂÀÎÁö È®ÀÎ
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (_state == PlayerState.Die)
             return;
 
@@ -95,4 +100,16 @@ public class PlayerController : MonoBehaviour
             _state = PlayerState.Moving;
         }
     }
+
+    void OnRunEvent(string seq)
+    {
+        Debug.Log($"¶Ñ¹÷ ¶Ñ¹÷ string {seq}");
+    }
+
+    void OnRunEvent(int seq)
+    {
+        Debug.Log($"¶Ñ¹÷ ¶Ñ¹÷ int {seq}");
+    }
+
+
 }
