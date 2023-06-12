@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8600072134199480709}
   - component: {fileID: 760524077375153934}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8424206254014321896}
   - component: {fileID: 6399681516549086652}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PointText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 3136335669502398059}
   - component: {fileID: 1979576282408644045}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PointButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
