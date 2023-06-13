@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class Util
 {
+    public static GameObject FindChild(GameObject parent, string name = null, bool recursive = false)
+    {
+        Transform transform = FindChild<Transform>(parent, name, recursive);
+        if(transform == null) 
+            return null;
+        return transform.gameObject;
+    }
+
     public static T FindChild<T>(GameObject parent, string name = null, bool recursive = false) where T : Object
     {
         if(parent == null)
