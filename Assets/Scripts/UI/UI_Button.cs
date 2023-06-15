@@ -33,19 +33,17 @@ public class UI_Button : UI_Base
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(GameObjects));
-        Bind<Image>(typeof(Images));
+        Bind<Image>(typeof(Images));        
 
-        GetText((int)Texts.ScoreText).text = "Bind Text";
+        GetButton((int)Buttons.PointButton).gameObject.AddUIEvent(OnButtonClicked);
 
         GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-        var eventHandler = go.GetComponent<UI_EventHandler>();
-        eventHandler.OnDragHandler += (PointerEventData data) => { eventHandler.gameObject.transform.position = data.position; };
-
+        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
     }
-
     
-    public void OnButtonClicked()
+    public void OnButtonClicked(PointerEventData data)
     {
         _score++;
+        GetText((int)Texts.ScoreText).text = $"Score : {_score}";
     }
 }

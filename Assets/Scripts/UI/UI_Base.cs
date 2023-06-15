@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Base : MonoBehaviour
@@ -39,4 +40,21 @@ public class UI_Base : MonoBehaviour
     protected TextMeshProUGUI GetText(int idx) => Get<TextMeshProUGUI>(idx);
     protected Button GetButton(int idx) => Get<Button>(idx);
     protected Image GetImage(int idx) => Get<Image>(idx);
+
+    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    {
+        var eventHandler = Util.GetOrAddComponent<UI_EventHandler>(go);
+
+        switch (type)
+        {
+            case Define.UIEvent.Click:
+                eventHandler.OnClickHandler -= action;
+                eventHandler.OnClickHandler += action;
+                break;
+            case Define.UIEvent.Drag:
+                eventHandler.OnDragHandler -= action;
+                eventHandler.OnDragHandler += action;
+                break;
+        }
+    }
 }
