@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_Inven : UI_Scene
@@ -27,11 +26,8 @@ public class UI_Inven : UI_Scene
 
         for(int i = 0;i < 8;i++)
         {
-            GameObject item = Managers.Resource.Instantiate("UI/Scene/UI_Inven_Item");
-            item.transform.SetParent(gridPanel.transform);
-
-            UI_Inven_Item invenItem = item.GetOrAddComponent<UI_Inven_Item>();
-            invenItem.SetInfo($"집행검 {i}");
+            UI_Inven_Item item = Managers.UI.MakeSubItem<UI_Inven_Item>(parent: gridPanel.transform);
+            item.SetInfo($"집행검 {i}");
         }
     }
 }

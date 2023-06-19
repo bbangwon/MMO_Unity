@@ -39,11 +39,12 @@ public abstract class UI_Base : MonoBehaviour
         return objects[idx] as T;
     }
 
+    protected GameObject GetObject(int idx) => Get<GameObject>(idx);
     protected TextMeshProUGUI GetText(int idx) => Get<TextMeshProUGUI>(idx);
     protected Button GetButton(int idx) => Get<Button>(idx);
     protected Image GetImage(int idx) => Get<Image>(idx);
 
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         var eventHandler = Util.GetOrAddComponent<UI_EventHandler>(go);
 
