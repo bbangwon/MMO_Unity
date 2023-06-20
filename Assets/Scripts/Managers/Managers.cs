@@ -7,9 +7,11 @@ public class Managers : MonoBehaviour
 
     InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
+    SceneManagerEx _scene = new SceneManagerEx();
     UIManager _ui = new UIManager();
     public static InputManager Input => Instance._input;
     public static ResourceManager Resource => Instance._resource;
+    public static SceneManagerEx Scene => Instance._scene;
     public static UIManager UI => Instance._ui;
 
     private void Start()
