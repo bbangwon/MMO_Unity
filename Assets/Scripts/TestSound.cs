@@ -14,15 +14,18 @@ public class TestSound : MonoBehaviour
         
     }
 
-    public AudioClip audioClip;
-    public AudioClip audioClip2;
+    //public AudioClip audioClip;
+    //public AudioClip audioClip2;
     private void OnTriggerEnter(Collider other)
     {
-        var audio = GetComponent<AudioSource>();
-        audio.PlayOneShot(audioClip);
-        audio.PlayOneShot(audioClip2);
+        //var audio = GetComponent<AudioSource>();
+        //audio.PlayOneShot(audioClip);
+        //audio.PlayOneShot(audioClip2);
 
-        float lifeTime = Mathf.Max(audioClip.length, audioClip2.length);
-        GameObject.Destroy(gameObject, lifeTime);
+        //float lifeTime = Mathf.Max(audioClip.length, audioClip2.length);
+        //GameObject.Destroy(gameObject, lifeTime);
+
+        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0001");
+        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0002");
     }
 }
