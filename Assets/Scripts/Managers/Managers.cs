@@ -43,4 +43,12 @@ public class Managers : MonoBehaviour
     {
         _input.OnUpdate();
     }
+
+    public static void Clear()
+    {
+        Scene.Clear();
+        Input.Clear();
+        Sound.Clear();
+        UI.Clear();
+    }
 }

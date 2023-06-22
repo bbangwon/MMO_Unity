@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager
 {
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
+
+    Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
     public void Init()
     {
@@ -24,7 +27,18 @@ public class SoundManager
         }
     }
 
-    public void Play(Define.Sound type, string path, float pitch = 1.0f)
+    public void Clear()
+    {
+        //메모리 낭비 예방
+        foreach(AudioSource audioSource in _audioSources)
+        {
+            audioSource.clip = null;
+            audioSource.Stop();
+        }
+        _audioClips.Clear();
+    }
+
+    public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
     {
         if (path.Contains("Sounds/") == false)
             path = $"Sounds/{path}";
@@ -38,11 +52,19 @@ public class SoundManager
                 return;
             }
 
+            AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
 
+            if(audioSource.isPlaying)
+                audioSource.Stop();
+
+            audioSource.pitch = pitch;
+            audioSource.clip = audioClip;
+            audioSource.Play();
         }
         else
         {
-            AudioClip audioClip = Managers.Resource.Load<AudioClip>(path);
+            //자주 실행될 수 있으므로 캐싱
+            AudioClip audioClip = GetOrAddAudioClip(path);
             if (audioClip == null)
             {
                 Debug.Log($"AudioClip Missing! {path}");
@@ -53,5 +75,18 @@ public class SoundManager
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);            
         }
+    }
+
+    AudioClip GetOrAddAudioClip(string path)
+    {
+        if(_audioClips.TryGetValue(path, out AudioClip audioClip) == false)
+        {
+            audioClip = Managers.Resource.Load<AudioClip>(path);
+            if (audioClip == null)
+                return null;
+
+            _audioClips.Add(path, audioClip);
+        }           
+        return audioClip;
     }
 }

@@ -16,6 +16,8 @@ public class TestSound : MonoBehaviour
 
     //public AudioClip audioClip;
     //public AudioClip audioClip2;
+
+    int i = 0;
     private void OnTriggerEnter(Collider other)
     {
         //var audio = GetComponent<AudioSource>();
@@ -25,7 +27,11 @@ public class TestSound : MonoBehaviour
         //float lifeTime = Mathf.Max(audioClip.length, audioClip2.length);
         //GameObject.Destroy(gameObject, lifeTime);
 
-        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0001");
-        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0002");
+        i++;
+
+        if(i % 2 == 0)
+            Managers.Sound.Play("UnityChan/univ0001", Define.Sound.Bgm);
+        else
+            Managers.Sound.Play("UnityChan/univ0002", Define.Sound.Bgm);
     }
 }
