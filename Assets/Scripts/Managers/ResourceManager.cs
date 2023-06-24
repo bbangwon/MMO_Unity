@@ -4,20 +4,35 @@ public class ResourceManager
 {
     public T Load<T>(string path) where T : Object
     {
+        if(typeof(T) == typeof(GameObject))
+        {
+            string name = path;
+            int index = name.LastIndexOf('/');
+            if(index >= 0)
+                name = name.Substring(index + 1);
+
+            GameObject go = Managers.Pool.GetOriginal(name);
+            if (go != null)
+                return go as T;
+        }
+
         return Resources.Load<T>(path);
     }
 
     public GameObject Instantiate(string path, Transform parent = null)
     {
-        GameObject prefab = Load<GameObject>($"Prefabs/{path}");
-        if(prefab == null)
+        GameObject origianl = Load<GameObject>($"Prefabs/{path}");
+        if(origianl == null)
         {
             Debug.Log($"Failed to load prefab : {path}");
             return null;
         }
 
-        GameObject go = Object.Instantiate(prefab, parent);
-        go.name = prefab.name;
+        if (origianl.GetComponent<Poolable>() != null)
+            return Managers.Pool.Pop(origianl, parent).gameObject;
+
+        GameObject go = Object.Instantiate(origianl, parent);
+        go.name = origianl.name;
 
         return go;
     }
@@ -26,6 +41,13 @@ public class ResourceManager
     {
         if (obj == null)
             return;
+
+        Poolable poolable = obj.GetComponent<Poolable>();
+        if(poolable != null)
+        {
+            Managers.Pool.Push(poolable);
+            return;
+        }
 
         Object.Destroy(obj);
     }
