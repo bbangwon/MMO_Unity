@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
@@ -34,15 +35,24 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = _destPos - transform.position;
 
         //정확히 0이 나오지 않을 경우가 있음. 매우 작은값으로 도착여부 판정
-        if (dir.magnitude < 0.0001f)
+        if (dir.magnitude < 0.1f)
         {
             _state = PlayerState.Idle;
         }
         else
         {
+            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
             float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, dir.magnitude);
+            nma.Move(moveDist * dir.normalized);
 
-            transform.position += moveDist * dir.normalized;
+            //배꼽위치에서 레이를 쏨
+            Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.green);
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
+            {
+                _state = PlayerState.Idle;
+                return;
+            }
+
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 10 * Time.deltaTime);
         }
 
@@ -91,7 +101,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.0f);
+        //Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.0f);
 
         LayerMask mask = LayerMask.GetMask("Wall");
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
