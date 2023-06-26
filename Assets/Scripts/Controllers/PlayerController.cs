@@ -4,15 +4,15 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    float _speed = 10f;
+    PlayerStat _stat;
     Vector3 _destPos;
 
     public enum PlayerState
     {
         Idle,
         Moving,
-        Die
+        Die,
+        Skill,
     }
 
     PlayerState _state = PlayerState.Idle;
@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _stat = GetComponent<PlayerStat>();
+
         Managers.Input.MouseAction -= OnMouseClicked;
         Managers.Input.MouseAction += OnMouseClicked;
     }
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
-            float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, dir.magnitude);
+            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
             nma.Move(moveDist * dir.normalized);
 
             //배꼽위치에서 레이를 쏨
@@ -58,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
         // 애니메이션
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("speed", _speed);
+        anim.SetFloat("speed", _stat.MoveSpeed);
     }
 
     void UpdateDie()
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
     void OnMouseClicked(Define.MouseEvent @event)
     {
         //UI가 클릭되어 있는 상태인지 확인
@@ -103,11 +106,19 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.0f);
 
-        LayerMask mask = LayerMask.GetMask("Wall");
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, _mask))
         {
             _destPos = hit.point;
             _state = PlayerState.Moving;
+
+            if(hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+            {
+                Debug.Log("Monster Click!");
+            }
+            else
+            {
+                Debug.Log("Ground Click!");
+            }
         }
     }
 
