@@ -3119,7 +3119,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e2b73d1149cbeb343aed51a2aa70d50d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3139,7 +3139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80d7ccd6e9d598479bff6e140acd644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
 --- !u!54 &8305003089321059585
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3217,7 +3216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _level: 0
   _hp: 0
-  _maxhp: 0
+  _maxHp: 0
   _attack: 0
   _defense: 0
   _moveSpeed: 0
