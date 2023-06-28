@@ -4,9 +4,6 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerStat _stat;
-    Vector3 _destPos;
-
     public enum PlayerState
     {
         Idle,
@@ -17,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     PlayerState _state = PlayerState.Idle;
-
     public PlayerState State
     {
         get => _state;
@@ -29,15 +25,13 @@ public class PlayerController : MonoBehaviour
             switch (_state)
             {
                 case PlayerState.Idle:
-                    anim.SetFloat("speed", 0);
-                    anim.SetBool("attack", false);
+                    anim.CrossFade("WAIT", 0.1f);
                     break;
                 case PlayerState.Moving:
-                    anim.SetFloat("speed", _stat.MoveSpeed);
-                    anim.SetBool("attack", false);
+                    anim.CrossFade("RUN", 0.1f);
                     break;
                 case PlayerState.Skill:
-                    anim.SetBool("attack", true);
+                    anim.CrossFade("ATTACK", 0.1f, -1, 0);
                     break;
                 case PlayerState.Die: 
                     break;
@@ -45,7 +39,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
+    PlayerStat _stat;
+    Vector3 _destPos;
+    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
+    GameObject _lockTarget;
+
     void Start()
     {
         _stat = GetComponent<PlayerStat>();
@@ -62,7 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         if(_lockTarget != null)
         {
-            float distance = (_destPos - transform.position).magnitude;
+            float distance = (_lockTarget.transform.position - transform.position).magnitude;
             if(distance <= 1)
             {
                 State = PlayerState.Skill;
@@ -99,11 +97,20 @@ public class PlayerController : MonoBehaviour
 
     void UpdateSkill()
     {
+        if(_lockTarget != null)
+        {
+            Vector3 dir = _lockTarget.transform.position - transform.position;
+            Quaternion quat = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
+        }
     }
 
     void OnHitEvent()
     {
-        State = PlayerState.Idle;
+        if (_stopSkill)
+            State = PlayerState.Idle;
+        else
+            State = PlayerState.Skill;
     }
 
     void UpdateDie()
@@ -138,9 +145,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
+    bool _stopSkill = false;
 
-    GameObject _lockTarget;
     void OnMouseEvent(Define.MouseEvent @event)
     {
         //UI가 클릭되어 있는 상태인지 확인
@@ -150,26 +156,36 @@ public class PlayerController : MonoBehaviour
         if (State == PlayerState.Die)
             return;
 
+        switch (State) 
+        { 
+            case PlayerState.Idle:
+            case PlayerState.Moving:
+                OnMouseEvent_IdleRun(@event);
+                break;
+            case PlayerState.Skill:                
+                {
+                    if (@event == Define.MouseEvent.PointerUp)
+                        _stopSkill = true;
+                }
+                break;
+        }
+    }
+
+    void OnMouseEvent_IdleRun(Define.MouseEvent @event)
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out RaycastHit hit, 100f, _mask);
         //Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.0f);
 
         switch (@event)
         {
-            case Define.MouseEvent.Press:
-                {
-                    if(_lockTarget != null)
-                        _destPos = _lockTarget.transform.position;
-                    else if(raycastHit)
-                        _destPos = hit.point;
-                }
-                break;
             case Define.MouseEvent.PointerDown:
                 {
-                    if(raycastHit)
+                    if (raycastHit)
                     {
                         _destPos = hit.point;
                         State = PlayerState.Moving;
+                        _stopSkill = false;
 
                         if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
                             _lockTarget = hit.collider.gameObject;
@@ -177,6 +193,15 @@ public class PlayerController : MonoBehaviour
                             _lockTarget = null;
                     }
                 }
+                break;
+            case Define.MouseEvent.Press:
+                {
+                    if (_lockTarget == null && raycastHit)
+                        _destPos = hit.point;
+                }
+                break;
+            case Define.MouseEvent.PointerUp:
+                _stopSkill = true;
                 break;
             default:
                 break;
