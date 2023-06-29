@@ -28,11 +28,6 @@ public class UI_Button : UI_Popup
 
     int _score = 0;
 
-    private void Start()
-    {
-        Init();
-    }
-
     public override void Init()
     {
         base.Init();
