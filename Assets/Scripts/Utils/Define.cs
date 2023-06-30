@@ -37,4 +37,12 @@ public class Define
     {
         QuarterView
     }
+
+    public enum State
+    {
+        Idle,
+        Moving,
+        Die,
+        Skill,
+    }
 }

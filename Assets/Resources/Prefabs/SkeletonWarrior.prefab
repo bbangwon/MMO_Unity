@@ -1834,6 +1834,7 @@ GameObject:
   - component: {fileID: 8651839854409528958}
   - component: {fileID: -5126876795521649651}
   - component: {fileID: 3310366662625855379}
+  - component: {fileID: 5913800540275056321}
   m_Layer: 6
   m_Name: SkeletonWarrior
   m_TagString: Untagged
@@ -1871,7 +1872,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6866cee7b97a02343a1f9a40aacc79e7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1920,6 +1921,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.92, z: 0}
+--- !u!114 &5913800540275056321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792142763464506071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85124ae58ead904bb57fcd9b5256e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 0
+  _destPos: {x: 0, y: 0, z: 0}
+  _lockTarget: {fileID: 0}
 --- !u!1 &5067542549491929140
 GameObject:
   m_ObjectHideFlags: 0
