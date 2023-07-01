@@ -7104,45 +7104,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnityChan
       objectReference: {fileID: 0}
-    - target: {fileID: 8305003089321059585, guid: 23632ca717a913445b7dd702c29cd2e8, type: 3}
-      propertyPath: m_Constraints
-      value: 32
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5269094742964859703, guid: 23632ca717a913445b7dd702c29cd2e8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1116813396}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23632ca717a913445b7dd702c29cd2e8, type: 3}
 --- !u!1 &1116813389 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5269094742964859703, guid: 23632ca717a913445b7dd702c29cd2e8, type: 3}
   m_PrefabInstance: {fileID: 1116813388}
   m_PrefabAsset: {fileID: 0}
---- !u!195 &1116813396
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116813389}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1001 &1120499087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14936,7 +14907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3058639421629294119, guid: 080033ae1dca14a42ac0fe61e30ca48b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -12.85
       objectReference: {fileID: 0}
     - target: {fileID: 3058639421629294119, guid: 080033ae1dca14a42ac0fe61e30ca48b, type: 3}
       propertyPath: m_LocalRotation.w

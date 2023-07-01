@@ -41,10 +41,6 @@ public class PlayerController : BaseController
         }
         else
         {
-            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
-            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
-            nma.Move(moveDist * dir.normalized);
-
             //¹è²ÅÀ§Ä¡¿¡¼­ ·¹ÀÌ¸¦ ½ô
             Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.green);
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
@@ -55,6 +51,8 @@ public class PlayerController : BaseController
                 return;
             }
 
+            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
+            transform.position += dir.normalized * moveDist;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 10 * Time.deltaTime);
         }
     }
@@ -77,7 +75,6 @@ public class PlayerController : BaseController
             Stat myStat = GetComponent<PlayerStat>();
 
             int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
-            Debug.Log(damage);
             targetStat.Hp -= damage;
         }
 
