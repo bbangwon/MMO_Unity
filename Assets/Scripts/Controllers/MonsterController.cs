@@ -85,10 +85,13 @@ public class MonsterController : BaseController
         if(_lockTarget != null)
         {
             Stat targetStat = _lockTarget.GetComponent<Stat>();
-            Stat myStat = GetComponent<Stat>();
-
-            int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
+            int damage = Mathf.Max(0, _stat.Attack - targetStat.Defense);
             targetStat.Hp -= damage;
+
+            if(targetStat.Hp <= 0)
+            {
+                Destroy(targetStat.gameObject);
+            }
 
             if(targetStat.Hp > 0)
             {
