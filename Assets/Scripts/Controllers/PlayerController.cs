@@ -33,6 +33,7 @@ public class PlayerController : BaseController
         }
 
         Vector3 dir = _destPos - transform.position;
+        dir.y = 0f;
 
         //정확히 0이 나오지 않을 경우가 있음. 매우 작은값으로 도착여부 판정
         if (dir.magnitude < 0.1f)
